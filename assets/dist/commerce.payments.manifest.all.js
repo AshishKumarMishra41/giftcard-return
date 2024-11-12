@@ -11,10 +11,10 @@ const userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML
 const accessToken = "r9l5tt9ld1r0ndr0k179r8r0l195nd2ck6h11th1rr9cl2n1rr20nt2c2r282ctr"; 
 
 class GiftCardService {
-    createPromoOrder(context) {
+    createPromoOrder(payload) {
         return new Promise((resolve, reject) => {
             try {
-                const promoOrder = context;
+                const promoOrder = payload;
 
                 const requestOptions = {
                     json: true,
@@ -430,60 +430,66 @@ module.exports = function(context, callback) {
     }
   }
 }
-
-
- */
+*/
 const GiftCardService = require('../../GiftCardService');
 const Logger = require("../../core/Logger");
 
-global.logServer =  "https://681e-45-114-49-89.ngrok-free.app";
-//global.proxyServer = 'https://nfvn44d833.execute-api.us-east-2.amazonaws.com/moneris/qa';
+global.logServer = "https://6a99-2401-4900-7617-f092-9995-b0b2-8c75-d022.ngrok-free.app";
 
-module.exports = function(context, callback) {
+module.exports = function (context, callback) {
   const logger = new Logger();
-  logger.info(context.get.payment);
+  // logger.info(JSON.stringify(context.get.payment()));
+  // logger.info(JSON.stringify(context.get.paymentAction()));
   const giftCardService = new GiftCardService();
-  
+
+  const paymentAction = context.get.paymentAction();
+  const paymentDetails = context.get.payment();
   const timestamp = Date.now();
   const randomFactor = Math.random();
   const uniqueRandomNumber = Math.floor(timestamp * randomFactor);
   const uniqueRandomString = uniqueRandomNumber.toString();  // Convert the number to a string
-  console.log(uniqueRandomString);
-
-  var obj = {
-    "PONumber": uniqueRandomString,
-    "BrandId": "FLEETFARMM",
-    "ReleaseNo": "MW6725479",
-    "PurchaserEmail": "rajesh.k@skillnetinc.com",
-    "type": "Email",
-    "Value": 39.99,
-    "CallbackUrl": "",
-    "OrderItems": [
-      {
-        "BrandId": "FLEETFARMM",
-        "FaceplateId": "FLEETFARMCF_10534",
-        "Value": 39.99,
-        "Quantity": 1,
-        "ToEmail": "rajesh.k@skillnetinc.com",
-        "ToFName": "Jacqui",
-        "ToLName": "Schlotterbeck",
-        "FromEmail": "customerservice@fleetfarm.com",
-        "FromFName": "Fleetfarm",
-        "FromLName": "Support",
-        "ItemType": "Digital",
-        "ItemID": "101584216"
-      }
-    ]
-  };
-
-  /*giftCardService.createPromoOrder(obj)
+  logger.info(`Payment Interaction Type ::: ${paymentAction.actionName}`);
+  if(paymentAction.actionName === "CreditPayment") {
+    logger.info('Initiating payment reversal process....');
+    const billingContact = paymentDetails.billingInfo.billingContact; 
+    var payload = {
+      "PONumber": uniqueRandomString,
+      "BrandId": "FLEETFARMM",
+      "ReleaseNo": "MW6725479",
+      "PurchaserEmail": billingContact.email,
+      "type": "Email",
+      "Value": paymentAction.amount,
+      "CallbackUrl": "",
+      "OrderItems": [
+        {
+          "BrandId": "FLEETFARMM",
+          "FaceplateId": "FLEETFARMCF_10534",
+          "Value": paymentAction.amount,
+          "Quantity": 1,
+          "ToEmail": billingContact.email,
+          "ToFName": billingContact.firstName,
+          "ToLName": billingContact.lastNameOrSurname,
+          "FromEmail": "customerservice@fleetfarm.com",
+          "FromFName": "Fleetfarm",
+          "FromLName": "Support",
+          "ItemType": "Digital",
+          "ItemID": "101584216"
+        }
+      ]
+    };
+  
+    giftCardService.createPromoOrder(payload)
       .then(result => {
-          console.log("Gift card order created successfully:", result);
+        console.log("Gift card order created successfully:", result);
+        callback();
       })
       .catch(error => {
-          console.error("Failed to create gift card order:", error.message);
-      });   */
-  callback();
+        console.error("Failed to create gift card order:", error.message);
+        callback("Failed to create gift card order:");
+      });
+  } else {
+    callback();
+  }
 };
 },{"../../GiftCardService":1,"../../core/Logger":3}],7:[function(require,module,exports){
 'use strict';

@@ -9,6 +9,11 @@
       "id": "embedded.commerce.payments.action.before",
       "virtualPath": "./dist\\commerce.payments.manifest.all.js",
       "actionId": "embedded.commerce.payments.action.before"
+    },
+    {
+      "id": "embedded.commerce.return.retrieveReasons",
+      "virtualPath": "./dist\\commerce.return.manifest.all.js",
+      "actionId": "embedded.commerce.return.retrieveReasons"
     }
   ]
 }

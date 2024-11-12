@@ -10,10 +10,10 @@ const userAgent = "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML
 const accessToken = "r9l5tt9ld1r0ndr0k179r8r0l195nd2ck6h11th1rr9cl2n1rr20nt2c2r282ctr"; 
 
 class GiftCardService {
-    createPromoOrder(context) {
+    createPromoOrder(payload) {
         return new Promise((resolve, reject) => {
             try {
-                const promoOrder = context;
+                const promoOrder = payload;
 
                 const requestOptions = {
                     json: true,
