@@ -40,11 +40,9 @@ const MissingReasonsFromATG = [
   "Wrong Size Ordered",
   "Not As Pictured",
   "Quality Not As Expected",
-  "Damaged in Shipping",// exists in kibo
-  "Defective",// Already exists in kibo
   "Wrong Item Shipped",
   "Expired"
-]
+];
 
 module.exports = function (context, callback) {
   if (context.configuration.returnReasons) {

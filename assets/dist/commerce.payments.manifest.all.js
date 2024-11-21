@@ -444,6 +444,8 @@ module.exports = function (context, callback) {
 
   const paymentAction = context.get.paymentAction();
   const paymentDetails = context.get.payment();
+  console.log("paymentDetails",paymentDetails);
+  console.log("paymentAction",paymentAction);
   const timestamp = Date.now();
   const randomFactor = Math.random();
   const uniqueRandomNumber = Math.floor(timestamp * randomFactor);
