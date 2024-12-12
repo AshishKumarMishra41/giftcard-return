@@ -71,7 +71,7 @@ const Logger = require("../../core/Logger");
 global.logServer = "https://6a99-2401-4900-7617-f092-9995-b0b2-8c75-d022.ngrok-free.app";
 
 module.exports = function (context, callback) {
-  const logger = new Logger();
+  //const logger = new Logger();
   // logger.info(JSON.stringify(context.get.payment()));
   // logger.info(JSON.stringify(context.get.paymentAction()));
   const giftCardService = new GiftCardService();
@@ -84,8 +84,9 @@ module.exports = function (context, callback) {
   const randomFactor = Math.random();
   const uniqueRandomNumber = Math.floor(timestamp * randomFactor);
   const uniqueRandomString = uniqueRandomNumber.toString();  // Convert the number to a string
-  logger.info(`Payment Interaction Type ::: ${paymentAction.actionName}`);
-  if(paymentAction.actionName === "CreditPayment") {
+  console.info(`Payment Interaction Type ::: ${paymentAction.actionName}`);
+  callback();
+  /*if(paymentAction.actionName === "CreditPayment") {
     logger.info('Initiating payment reversal process....');
     const billingContact = paymentDetails.billingInfo.billingContact; 
     var payload = {
@@ -125,5 +126,5 @@ module.exports = function (context, callback) {
       });
   } else {
     callback();
-  }
+  }*/
 };

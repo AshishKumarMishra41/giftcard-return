@@ -47,7 +47,8 @@ const MissingReasonsFromATG = [
 module.exports = function (context, callback) {
   if (context.configuration.returnReasons) {
     console.error("new reasons ", context.configuration.returnReasons);
-    const merged = context.get.reasonList().concat(context.configuration.returnReasons);
+    const merged = context.configuration.returnReasons;
+    // context.get.reasonList().concat(context.configuration.returnReasons);
     console.error("merged reasons ", merged);
     context.exec.setReasonList(merged);
   }
